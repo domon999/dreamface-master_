@@ -1,11 +1,11 @@
-# 构建阶段：使用 Maven + Java 8
-FROM maven:3.8.6-openjdk-8 AS build
+# 构建阶段：使用 Eclipse Temurin Maven + Java 8
+FROM maven:3.8.8-eclipse-temurin-8 AS build
 WORKDIR /app
 COPY . .
 RUN mvn clean package -DskipTests
 
-# 运行阶段：使用 Java 8 JRE
-FROM openjdk:8-jre-slim
+# 运行阶段：使用 Eclipse Temurin Java 8 JRE
+FROM eclipse-temurin:8-jre
 WORKDIR /app
 COPY --from=build /app/ruoyi-admin/target/ruoyi-admin-*.jar app.jar
 
