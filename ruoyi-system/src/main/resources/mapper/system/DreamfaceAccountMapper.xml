@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.DreamfaceAccountMapper">
+    
+    <resultMap type="DreamfaceAccount" id="DreamfaceAccountResult">
+        <result property="id"    column="id"    />
+        <result property="token"    column="token"    />
+        <result property="useragent"    column="useragent"    />
+        <result property="cookie"    column="cookie"    />
+        <result property="isUsed"    column="is_used"    />
+        <result property="checktime"    column="checktime"    />
+    </resultMap>
+
+    <sql id="selectDreamfaceAccountVo">
+        select id, token, useragent, cookie, is_used, checktime from dreamface_account
+    </sql>
+
+    <select id="selectDreamfaceAccountList" parameterType="DreamfaceAccount" resultMap="DreamfaceAccountResult">
+        <include refid="selectDreamfaceAccountVo"/>
+        <where>  
+            <if test="token != null  and token != ''"> and token = #{token}</if>
+            <if test="useragent != null  and useragent != ''"> and useragent = #{useragent}</if>
+            <if test="cookie != null  and cookie != ''"> and cookie = #{cookie}</if>
+            <if test="isUsed != null  and isUsed != ''"> and is_used = #{isUsed}</if>
+            <if test="checktime != null "> and checktime = #{checktime}</if>
+        </where>
+    </select>
+    
+    <select id="selectDreamfaceAccountById" parameterType="String" resultMap="DreamfaceAccountResult">
+        <include refid="selectDreamfaceAccountVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertDreamfaceAccount" parameterType="DreamfaceAccount" useGeneratedKeys="true" keyProperty="id">
+        insert into dreamface_account
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="token != null">token,</if>
+            <if test="useragent != null">useragent,</if>
+            <if test="cookie != null">cookie,</if>
+            <if test="isUsed != null and isUsed != ''">is_used,</if>
+            <if test="checktime != null">checktime,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="token != null">#{token},</if>
+            <if test="useragent != null">#{useragent},</if>
+            <if test="cookie != null">#{cookie},</if>
+            <if test="isUsed != null and isUsed != ''">#{isUsed},</if>
+            <if test="checktime != null">#{checktime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDreamfaceAccount" parameterType="DreamfaceAccount">
+        update dreamface_account
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="token != null">token = #{token},</if>
+            <if test="useragent != null">useragent = #{useragent},</if>
+            <if test="cookie != null">cookie = #{cookie},</if>
+            <if test="isUsed != null and isUsed != ''">is_used = #{isUsed},</if>
+            <if test="checktime != null">checktime = #{checktime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDreamfaceAccountById" parameterType="String">
+        delete from dreamface_account where id = #{id}
+    </delete>
+
+    <delete id="deleteDreamfaceAccountByIds" parameterType="String">
+        delete from dreamface_account where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>
