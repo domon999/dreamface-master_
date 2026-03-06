@@ -5,7 +5,7 @@ RUN mvn clean package -DskipTests
 
 FROM eclipse-temurin:8-jre
 WORKDIR /app
-COPY --from=build /app/ruoyi-admin/target/ruoyi-admin-*.jar app.jar
+COPY --from=build /app/ruoyi-admin/target/ruoyi-admin.jar app.jar
 
 ENV TZ=Asia/Shanghai
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
